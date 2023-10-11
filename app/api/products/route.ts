@@ -5,8 +5,42 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req: Request) => {
   try {
+    const { searchParams } = new URL(req.url)
+    const product_name = searchParams.get('name') || undefined
+    const product_price = searchParams.get('price') || undefined
+    const size = searchParams.get('size') || undefined
+    const category = searchParams.get('category') || undefined
+    const color = searchParams.get('color') || undefined
+    const product_isNew = searchParams.get('isNew')
+
     await connectToDb();
+
     const products = await prisma.product.findMany({
+      where: {
+        AND: [
+          {
+            name: product_name ? { equals: product_name } : undefined,
+          },
+          {
+            price: Number(product_price) ? { equals: Number(product_price) } : undefined,
+          },
+          {
+            sizes: size ? { has: size } : undefined
+          },
+          {
+            categories: category ? { has: category } : undefined
+          },
+          {
+            colors: color ? { has: color } : undefined
+          },
+          {
+            isNew: product_isNew ? { equals: JSON.parse(product_isNew) } : undefined
+          },
+          {
+            isFeatured: true
+          }
+        ],
+      },
       include: {
         images: true,
       },
@@ -43,9 +77,7 @@ export const POST = async (req: Request) => {
       !sizes ||
       !categories ||
       !colors ||
-      !currency ||
-      !isNew ||
-      !isFeatured
+      !currency
     ) {
       return new NextResponse(
         "name,description,price,images,sizes,categories,colors,currency,isNew,isFeatured is Required",
@@ -85,3 +117,9 @@ export const POST = async (req: Request) => {
     await prisma.$disconnect().then(() => console.log("Database Disconnected"));
   }
 };
+
+
+// OR: [
+// ]
+//
+//   ]
