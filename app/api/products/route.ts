@@ -22,9 +22,6 @@ export const GET = async (req: Request) => {
             name: product_name ? { equals: product_name } : undefined,
           },
           {
-            price: Number(product_price) ? { equals: Number(product_price) } : undefined,
-          },
-          {
             sizes: size ? { has: size } : undefined
           },
           {
@@ -44,6 +41,9 @@ export const GET = async (req: Request) => {
       include: {
         images: true,
       },
+      orderBy: {
+        price: product_price === 'asc' ? 'asc' : product_price === 'desc' ? 'desc' : undefined
+      }
     });
     return NextResponse.json({ products }, { status: 200 });
   } catch (error) {
@@ -117,9 +117,3 @@ export const POST = async (req: Request) => {
     await prisma.$disconnect().then(() => console.log("Database Disconnected"));
   }
 };
-
-
-// OR: [
-// ]
-//
-//   ]
