@@ -21,3 +21,18 @@ export function getSizeName(value: string) {
       return "One Size"
   }
 }
+
+export function getDiscount(value: string) {
+  switch (value) {
+    case "COUPON1":
+      return 10
+    case "COUPON2":
+      return 20
+    case "COUPON3":
+      return 30
+    case "COUPON4":
+      return 40
+    case "COUPON5":
+      return 50
+  }
+}

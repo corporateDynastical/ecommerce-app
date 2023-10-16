@@ -32,14 +32,15 @@ const Carousel = () => {
                     disableOnInteraction: false
                 }}
                 speed={1200}
+                loop
                 pagination={{ clickable: true }}
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
             >
                 {SwiperImage.map((item, index) => (
                     <SwiperSlide>
-                        <div className='w-[100vw] h-[60vh] sm:h-[85vh] relative'>
-                            <Image src={item.src} alt='offer-image' fill />
+                        <div className='w-[100vw] h-[350px] sm:h-[645px] relative'>
+                            <Image objectFit='cover' src={item.src} alt='offer-image' fill />
                         </div>
                     </SwiperSlide>
                 ))}

@@ -28,7 +28,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     }
 
     const { name, size, color, isNew, price } = searchParams
-    console.log(name, size, color);
+    // console.log(name, size, color);
 
     const nameFilter = name ? `&name=${name}` : ""
     const sizeFilter = size ? `&size=${size}` : ""
@@ -37,7 +37,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     const priceFilter = price ? `&price=${price}` : ""
 
     const filter = `?category=${params.categoryName}${nameFilter}${sizeFilter}${colorFilter}${isNewFilter}${priceFilter}`
-    console.log(`http://localhost:3000/api/products${filter}`);
+    // console.log(`http://localhost:3000/api/products${filter}`);
 
     const products = await fetch(`http://localhost:3000/api/products${filter}`)
     const data = await products.json()

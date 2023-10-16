@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Footer from '@/components/footer'
 import { Providers } from '@/components/providers';
+import Watermark from '@/components/watermark';
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Watermark imageUrl='/logo.png' />
           <Footer />
         </Providers>
       </body>

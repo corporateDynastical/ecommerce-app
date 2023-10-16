@@ -2,9 +2,13 @@
 
 import { Product } from '@/types'
 import { useState } from 'react'
+import { formatCurrencyString, useShoppingCart } from 'use-shopping-cart'
 
 import { getSizeName } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useToast } from "@/components/ui/use-toast"
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 interface ProductInfoProps {
     product: Product
@@ -13,6 +17,31 @@ interface ProductInfoProps {
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
 
     const [selectedSize, setSelectedSize] = useState(product.sizes[0])
+    const { toast } = useToast()
+    const { addItem, incrementItem, cartDetails } = useShoppingCart();
+    const isInCart = !!cartDetails?.[product.id]
+
+    function addToCart() {
+        const item = {
+            ...product,
+            product_data: {
+                size: selectedSize,
+            },
+        }
+        isInCart ? incrementItem(item.id) : addItem(item)
+        toast({
+            title: `${item.name} (${getSizeName(selectedSize)})`,
+            description: "Product added to cart",
+            action: (
+                <Link href={"/cart"}>
+                    <Button variant={"link"} className="gap-x-2 whitespace-nowrap">
+                        <span>Open cart</span>
+                        <ArrowRight className="h-5 w-5" />
+                    </Button>
+                </Link>
+            ),
+        })
+    }
 
     return (
         <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
@@ -21,7 +50,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
             <div className="mt-3">
                 <h2 className="sr-only">Product information</h2>
                 <p className="text-3xl tracking-tight">
-                    {product.price}
+                    {formatCurrencyString({
+                        value: product.price,
+                        currency: product.currency
+                    })}
                 </p>
             </div>
 
@@ -50,6 +82,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
             <form className="mt-6">
                 <div className="mt-4 flex">
                     <Button
+                        onClick={addToCart}
                         type="button"
                         className="w-full bg-violet-600 py-6 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500"
                     >

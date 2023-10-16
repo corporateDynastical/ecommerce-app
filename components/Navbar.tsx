@@ -1,12 +1,17 @@
-import React from 'react'
+"use client"
+
 import Link from 'next/link'
+import { ShoppingBag } from 'lucide-react'
 
 import Container from '@/components/ui/container'
 import { Button } from '@/components/ui/button'
-import { ShoppingBag } from 'lucide-react'
-import { ThemeToggle } from './theme-toggle'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { useShoppingCart } from 'use-shopping-cart'
 
 const Navbar = () => {
+
+    const { cartCount } = useShoppingCart()
+
     return (
         <header className="sticky top-0 z-40 w-full border-b bg-background">
             <Container>
@@ -20,7 +25,7 @@ const Navbar = () => {
                         <Link href="/cart">
                             <Button size="sm" variant="ghost">
                                 <ShoppingBag className="h-5 w-5" />
-                                <span className="ml-2 text-sm font-bold">0</span>
+                                <span className="ml-2 text-sm font-bold">{cartCount}</span>
                                 <span className="sr-only">Cart</span>
                             </Button>
                         </Link>

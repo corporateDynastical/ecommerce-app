@@ -16,7 +16,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = await fetch(`http://localhost:3000/api/products/${params.productId}`)
   const product_data = await product.json()
   const current_product = product_data.product
-  console.log(current_product);
+  // console.log(current_product);
 
   return (
     <main className="mx-auto max-w-5xl sm:px-6 sm:pt-16 lg:px-8">

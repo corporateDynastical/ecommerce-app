@@ -1,16 +1,19 @@
+"use client"
+
 import { XCircle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 import { Product } from "@/types"
 import { shimmer, toBase64 } from "@/lib/image"
+import { formatCurrencyString } from "use-shopping-cart"
 
 interface ProductGridProps {
     products: Product[];
     categoryName: string;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = async ({
+const ProductGrid: React.FC<ProductGridProps> = ({
     products, categoryName
 }) => {
 
@@ -50,7 +53,10 @@ const ProductGrid: React.FC<ProductGridProps> = async ({
                     </div>
                     <h3 className="mt-4 font-medium">{product.name}</h3>
                     <p className="mt-2 font-medium">
-                        {product.price}
+                        {formatCurrencyString({
+                            value: product.price,
+                            currency: product.currency
+                        })}
                     </p>
                 </Link>
             ))}
